@@ -46,8 +46,13 @@ export default defineConfig({
       include: [/node_modules/], // Ensures CJS modules are handled
     },
     rollupOptions: {
+      external: ['react-helmet-async'],
       output: {
-        manualChunks: {  
+        globals: {
+          'react-helmet-async': 'ReactHelmetAsync',
+        },
+        manualChunks: {
+          'react-helmet-async': ['react-helmet-async'],          
           'react-vendor': ['react', 'react-dom'],
           'router': ['react-router-dom'],
           'animation': ['framer-motion', '@react-spring/web'],
