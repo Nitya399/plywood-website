@@ -48,6 +48,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          'react-helmet-async': ['react-helmet-async'],          
           'react-vendor': ['react', 'react-dom'],
           'router': ['react-router-dom'],
           'animation': ['framer-motion', '@react-spring/web'],
