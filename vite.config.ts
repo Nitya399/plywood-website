@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { cjsInterop } from 'vite-plugin-cjs-interop';
 
 export default defineConfig({
   plugins: [
@@ -10,6 +11,11 @@ export default defineConfig({
           ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]
         ]
       }
+    }),
+    cjsInterop({ // Add the plugin to your configuration
+      dependencies: [
+        'react-helmet-async',
+      ],
     }),
     ViteImageOptimizer({
       test: /\.(jpe?g|png|gif|webp)$/i,
