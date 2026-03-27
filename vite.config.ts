@@ -42,6 +42,9 @@ export default defineConfig({
     }),
   ],
   build: {
+    commonjsOptions: {
+      include: [/node_modules/], // Ensures CJS modules are handled
+    },
     rollupOptions: {
       output: {
         manualChunks: {
@@ -63,7 +66,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['lucide-react'],
-    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', '@react-spring/web'],
+    include: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async', 'framer-motion', '@react-spring/web'],
   },
   server: {
     hmr: {
