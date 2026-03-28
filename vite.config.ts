@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
-import { cjsInterop } from 'vite-plugin-cjs-interop';
 
 export default defineConfig({
   plugins: [
@@ -11,12 +10,7 @@ export default defineConfig({
           ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]
         ]
       }
-    }),
-    cjsInterop({ // Add the plugin to your configuration
-      dependencies: [
-        'react-helmet-async',
-      ],
-    }),
+    }),        // ← only ONE closing here, no extra })
     ViteImageOptimizer({
       test: /\.(jpe?g|png|gif|webp)$/i,
       includePublic: true,
@@ -36,52 +30,48 @@ export default defineConfig({
           },
         ],
       },
-      png: {
-        quality: 80,
-      },
-      jpeg: {
-        quality: 80,
-      },
-      jpg: {
-        quality: 80,
-      },
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      jpg: { quality: 80 },
     }),
   ],
   build: {
     commonjsOptions: {
-      include: [/node_modules/], // Ensures CJS modules are handled
+      include: [/node_modules/],
     },
     rollupOptions: {
-      external: ['react-helmet-async'],
       output: {
-        globals: {
-          'react-helmet-async': 'ReactHelmetAsync',
-        },
         manualChunks: {
-          'react-helmet-async': ['react-helmet-async'],          
-          'react-vendor': ['react', 'react-dom'],
-          'router': ['react-router-dom'],
-          'animation': ['framer-motion', '@react-spring/web'],
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          animation: ['framer-motion', '@react-spring/web'],
         },
       },
-    },
+    },                        // ← comma here, NOT a closing brace for build
     chunkSizeWarningLimit: 1000,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
-      }
+        drop_debugger: true,
+      },
     },
-    reportCompressedSize: false
+    reportCompressedSize: false,
   },
   optimizeDeps: {
     exclude: ['lucide-react'],
-    include: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async', 'framer-motion', '@react-spring/web'],
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'react-helmet-async',
+      'framer-motion',
+      '@react-spring/web',
+    ],
   },
   server: {
     hmr: {
-      overlay: false
-    }
-  }
+      overlay: false,
+    },
+  },
 });
